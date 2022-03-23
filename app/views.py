@@ -8,6 +8,7 @@ from django.contrib.auth import login, authenticate #para logear al usuario una 
 from django.contrib.auth.decorators import login_required, permission_required #verificar los permisos para acceder a las url
 
 # Create your views here.
+#@login_required #solo permite ingresar a los usuarios authenticados
 def home(request):
 
     productos=Producto.objects.all()
