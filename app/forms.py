@@ -3,6 +3,7 @@ from django import forms
 from .models import Contacto, Producto
 from django.contrib.auth.forms import UserCreationForm # para crear usuarios
 from django.contrib.auth.models import User #para trabajar con el modelo predeterminado de usuario
+from .validators import MaxSizeFileValidator #importo el validator q cree
 
 class ContactoForm(forms.ModelForm): #crear clase para el formulario, siempre hereda de forms.Modelform
 
@@ -13,8 +14,9 @@ class ContactoForm(forms.ModelForm): #crear clase para el formulario, siempre he
 
 class AgregarProductoForm(forms.ModelForm):
 
+    #agregando validaciones a algunos campos
     nombre = forms.CharField(min_length=3, max_length=50)
-    imagen = forms.ImageField(required=False)
+    imagen = forms.ImageField(required=False, validators=[MaxSizeFileValidator(max_file_size=2)])
     precio = forms.IntegerField(min_value=1, max_value=150000000)
 
     class Meta:
