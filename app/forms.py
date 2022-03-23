@@ -13,6 +13,9 @@ class ContactoForm(forms.ModelForm): #crear clase para el formulario, siempre he
 
 class AgregarProductoForm(forms.ModelForm):
 
+    nombre = forms.CharField(min_length=3, max_length=50)
+    imagen = forms.ImageField(required=False)
+    precio = forms.IntegerField(min_value=1, max_value=150000000)
 
     class Meta:
         model=Producto
