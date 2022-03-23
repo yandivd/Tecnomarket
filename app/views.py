@@ -5,6 +5,7 @@ from django.contrib import messages #para los mensajes vinculados al SweetAlert2
 from django.core.paginator import Paginator #clase necesaria para paginar
 from django.http import Http404 #para pagina no encontrada
 from django.contrib.auth import login, authenticate #para logear al usuario una vez se registre
+from django.contrib.auth.decorators import login_required, permission_required #verificar los permisos para acceder a las url
 
 # Create your views here.
 def home(request):
@@ -37,6 +38,7 @@ def contacto(request):
 def galeria(request):
     return render(request,'app/galeria.html')
 
+@permission_required('app.add_producto') #decorador para solo permitir los que tienen permisos
 def agregar_producto(request):
 
     data={
@@ -54,6 +56,7 @@ def agregar_producto(request):
 
     return render(request, 'app/producto/agregar.html', data)
 
+@permission_required('app.view_producto')
 def listar_productos(request):
 
     productos=Producto.objects.all()
@@ -73,6 +76,7 @@ def listar_productos(request):
 
     return render(request, 'app/producto/listar.html', data)
 
+@permission_required('app.change_producto')
 def editar_producto(request, id):
 
     producto= get_object_or_404(Producto, id=id) #toma el producto de la id
@@ -92,6 +96,7 @@ def editar_producto(request, id):
 
     return render(request,'app/producto/modificar.html', data)
 
+@permission_required('app.delete_producto')
 def eliminar_producto(request, id):
     producto=get_object_or_404(Producto, id=id)
     producto.delete()
