@@ -26,7 +26,9 @@ def contacto(request):
         formulario=ContactoForm(data=request.POST) #creo un nuevo formulario pero con los datos q estoy enviando
         if formulario.is_valid(): #verifica q el formulario sea valido para guardarlo
             formulario.save()
-            data["mensaje"]="Gracias por Contactarnos" #crea un mensaje y lo agrega al data
+            #data["mensaje"]="Gracias por Contactarnos" #crea un mensaje y lo agrega al data
+            messages.success(request, "Gracias por su comentario")
+            return redirect(to='home')
         else:
             data["form"]=formulario #si no es valido reenvia el mismo formulario con los errores
 
