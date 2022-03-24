@@ -4,6 +4,7 @@ from .models import Contacto, Producto
 from django.contrib.auth.forms import UserCreationForm # para crear usuarios
 from django.contrib.auth.models import User #para trabajar con el modelo predeterminado de usuario
 from .validators import MaxSizeFileValidator #importo el validator q cree
+from django.forms import ValidationError #para lanzar excepciones
 
 class ContactoForm(forms.ModelForm): #crear clase para el formulario, siempre hereda de forms.Modelform
 
@@ -18,6 +19,16 @@ class AgregarProductoForm(forms.ModelForm):
     nombre = forms.CharField(min_length=3, max_length=50)
     imagen = forms.ImageField(required=False, validators=[MaxSizeFileValidator(max_file_size=2)])
     precio = forms.IntegerField(min_value=1, max_value=150000000)
+
+    #este metodo es para q el nombre sea unico
+    #def clean_nombre(self):
+    #    nombre = self.cleaned_data['nombre']
+    #    existe = Producto.objects.filter(nombre__iexact=nombre).exists() #el iexact hace q no diferencie entre may y min
+
+    #    if existe:
+    #        raise ValidationError("Este usuario ya existe")
+
+    #    return nombre
 
     class Meta:
         model=Producto
